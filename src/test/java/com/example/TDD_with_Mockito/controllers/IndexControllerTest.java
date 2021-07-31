@@ -1,8 +1,11 @@
 package com.example.TDD_with_Mockito.controllers;
 
+import com.example.TDD_with_Mockito.services.IndexService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,12 +17,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(IndexController.class)
+//@ExtendWith(SpringExtension.class)
+//@WebMvcTest(IndexController.class)
 class IndexControllerTest {
 
+    private IndexService service;
     @Autowired
     private MockMvc mvc;
+
+    @BeforeEach
+    void setup() throws Exception {
+        service = Mockito.mock(IndexService.class);
+    }
     @Test
     @DisplayName("A test to assert the index controller")
     void indexPath() throws Exception {
@@ -33,8 +42,10 @@ class IndexControllerTest {
     @DisplayName("should test a controller method like a regular java se method")
     @Test
     void alternativeIndexPathTest(){
-        IndexController controller = new IndexController();
-        String expected =  "you are welcome to the alternative index path for testing";
+        String guest = "Emmanuel";
+        String expected =  String.format("You are welcome, %s", guest);
+        Mockito.when(service.getWelcomeMessage(guest)).thenReturn(expected);
+        IndexController controller = new IndexController(service);
         assertEquals(expected, controller.alternativeIndexPath());
     }
 }
