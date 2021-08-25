@@ -39,7 +39,7 @@ class IndexControllerTest {
         assertEquals(expected, actual);
     }
 
-    @DisplayName("should test a controller method like a regular java se method")
+    @DisplayName("should test a controller method like a regular java-SE method")
     @Test
     void alternativeIndexPathTest(){
         String guest = "Emmanuel";
