@@ -1,6 +1,7 @@
 package com.example.TDD_with_Mockito.repository;
 
 import com.example.TDD_with_Mockito.models.Student;
+import com.example.TDD_with_Mockito.test_resources.StudentTestResources;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-class StudentRepositoryTest {
+class StudentRepositoryTest extends StudentTestResources {
 
     @Autowired
     StudentRepository underTest;
@@ -25,16 +26,13 @@ class StudentRepositoryTest {
     }
 
     @Test
-    @DisplayName("it should test if student exists by email")
+    @DisplayName("it should test if student exists by saved email")
     void existsByEmail() {
-        final String email = "micheal@email.com";
+        final String email = "email@email.com";
         //given
-        Student student = new Student();
-        student.setEmail(email);
-        student.setName("Micheal Opera");
-        student.setGender("male");
 
-        underTest.save(student);
+
+        underTest.saveAll(this.students);
 
         //when
 
